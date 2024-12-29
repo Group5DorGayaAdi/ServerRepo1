@@ -5,23 +5,26 @@ namespace Server.Models
 {
     public class Game
     {
+        // the right one
 
-        int appID;
-        string name;
-        DateTime releaseDate;
-        double price;
-        string description;
-        string headerImage;
-        string website;
-        bool windows;
-        bool linux;
-        int scoreRank;
-        string recommendations;
-        string publisher;
+        private int appID;
+        private string name;
+        private DateTime releaseDate;
+        private double price;
+        private string description;
+        private string headerImage;
+        private string website;
+        private bool windows;
+        private bool mac;
+        private bool linux;
+        private int scoreRank;
+        private string recommendations;
+        private string publisher;
+        private int numberOfPurchases;
         public static List<Game> gamesList = new List<Game>();
         public Game() { }
 
-        public Game(int appID, string name, DateTime releaseDate, double price, string description, string headerImage, string website, bool windows, bool linux, int scoreRank, string recommendations, string publisher)
+        public Game(int appID, string name, DateTime releaseDate, double price, string description, string headerImage, string website, bool windows, bool mac, bool linux, int scoreRank, string recommendations, string publisher, int numberOfPurchases)
         {
             AppID = appID;
             Name = name;
@@ -31,10 +34,12 @@ namespace Server.Models
             HeaderImage = headerImage;
             Website = website;
             Windows = windows;
+            Mac = mac;
             Linux = linux;
             ScoreRank = scoreRank;
             Recommendations = recommendations;
             Publisher = publisher;
+            NumberOfPurchases = numberOfPurchases;
         }
 
         public int AppID { get => appID; set => appID = value; }
@@ -49,6 +54,8 @@ namespace Server.Models
         public int ScoreRank { get => scoreRank; set => scoreRank = value; }
         public string Recommendations { get => recommendations; set => recommendations = value; }
         public string Publisher { get => publisher; set => publisher = value; }
+        public int NumberOfPurchases { get => numberOfPurchases; set => numberOfPurchases = value; }
+        public bool Mac { get => mac; set => mac = value; }
 
         public bool Insert()
         {
