@@ -1,4 +1,6 @@
 ﻿
+using Server.DAL;
+
 namespace Server.Models
 {
     public class User
@@ -39,15 +41,16 @@ namespace Server.Models
         {
             return usersList;
         }
-        public bool Register()
+        public int Register()
         {
-            foreach (var user in usersList)
-            {
-                if (user.Email == this.Email)
-                    return false;
-            }
-            usersList.Add(this);
-            return true;
+            //foreach (var user in usersList)
+            //{
+            //    if (user.Email == this.Email)
+            //        return false;
+            //}
+            //usersList.Add(this);
+            DBservices db = new DBservices();
+            return db.InsertUser(this);
         }
 
         public bool isValidUser(string email, string password)

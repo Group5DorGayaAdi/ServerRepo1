@@ -24,8 +24,12 @@ namespace Server.Controllers
             }
 
             [HttpPost("Register")]
-            public bool Register([FromBody] User newUser)
+            public int Register([FromBody] User newUser)
             {
+            if (newUser.Register()==-1)
+            {
+                throw new Exception("email already exist");
+            }
                 return newUser.Register();
 
             }
