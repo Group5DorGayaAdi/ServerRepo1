@@ -108,18 +108,18 @@ namespace Server.Models
             gamesList.Remove(gameToRemove);
         }
 
-        static public bool InsertAllGamesOnce(List<Game> AllGames)
-        {
-            DBservices db = new DBservices();
-            int sumOfNumEff = db.InitInsert(AllGames);
-            if (sumOfNumEff < 99)
-            {
-                throw new Exception("not all Games was Inserted");
-            }
-            else
-            {
-                return true;
-            }
-        }
+        //static public bool InsertAllGamesOnce(List<Game> AllGames)
+        //{
+        //    DBservices db = new DBservices();
+        //    int sumOfNumEff = db.InitInsert(AllGames);
+        //    if (sumOfNumEff < 99)
+        //    {
+        //        throw new Exception("not all Games was Inserted");
+        //    }
+        //    else
+        //    {
+        //        return true;
+        //    }
+        //}
     }
 }

@@ -29,69 +29,70 @@ namespace Server.DAL
             return con;
         }
 
-        public int InitInsert(List<Game> listOfGames)
-        {
+        //public int InitInsert(List<Game> listOfGames)
+        //{
 
-            SqlConnection con;
-            SqlCommand cmd;
+        //    SqlConnection con;
+        //    SqlCommand cmd;
 
-            try
-            {
-                con = connect("myProjDB"); // create the connection
-            }
-            catch (Exception ex)
-            {
-                // write to log
-                throw (ex);
-            }
-            int sumOfNumEff = 0;
-            for (int i = 0; i < listOfGames.Count; i++)
-            {
-                Dictionary<string, object> paramDic = new Dictionary<string, object>();
-                Game game = listOfGames[i];
-                paramDic.Add("@AppID", game.AppID);
-                paramDic.Add("@Name", game.Name);
-                //paramDic.Add("@IsMac", game.Mac);
-                paramDic.Add("@Price", game.Price);
-                paramDic.Add("@Description", game.Description);
-                paramDic.Add("@IsWindows", game.Windows);
-                paramDic.Add("@Website", game.Website);
-                paramDic.Add("@HeaderImage", game.HeaderImage);
-                paramDic.Add("@IsLinux", game.Linux);
-                paramDic.Add("@ScoreRank", game.ScoreRank);
-                paramDic.Add("@Recommendations", game.Recommendations);
-                paramDic.Add("@Publisher", game.Publisher);
-                paramDic.Add("@ReleaseDate", game.ReleaseDate);
-
-
-
-                cmd = CreateCommandWithStoredProcedureGeneral("SP_InsertGame", con, paramDic);        // create the command
-
-                try
-                {
-                    int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                    sumOfNumEff += numEffected;
-                }
-                catch (Exception ex)
-                {
-                    // write to log
-                    if (con != null)
-                    {
-                        // close the db connection
-                        con.Close();
-                    }
-                    throw (ex);
-                }
+        //    try
+        //    {
+        //        con = connect("myProjDB"); // create the connection
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // write to log
+        //        throw (ex);
+        //    }
+        //    int sumOfNumEff = 0;
+        //    for (int i = 0; i < listOfGames.Count; i++)
+        //    {
+        //        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        //        Game game = listOfGames[i];
+        //        //paramDic.Add("@AppID", game.AppID);
+        //        paramDic.Add("@Name", game.Name);
+        //        paramDic.Add("@IsMac", game.Mac);
+        //        paramDic.Add("@Price", game.Price);
+        //        paramDic.Add("@Description", game.Description);
+        //        paramDic.Add("@IsWindows", game.Windows);
+        //        paramDic.Add("@Website", game.Website);
+        //        paramDic.Add("@HeaderImage", game.HeaderImage);
+        //        paramDic.Add("@IsLinux", game.Linux);
+        //        paramDic.Add("@ScoreRank", game.ScoreRank);
+        //        paramDic.Add("@Recommendations", game.Recommendations);
+        //        paramDic.Add("@Publisher", game.Publisher);
+        //        paramDic.Add("@ReleaseDate", game.ReleaseDate);
+        //        paramDic.Add("@NumberOfPurchases", 0);
 
 
-            }
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-            return sumOfNumEff;
-        }
+
+        //        cmd = CreateCommandWithStoredProcedureGeneral("SP_InsertGame", con, paramDic);        // create the command
+
+        //        try
+        //        {
+        //            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+        //            sumOfNumEff += numEffected;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // write to log
+        //            if (con != null)
+        //            {
+        //                // close the db connection
+        //                con.Close();
+        //            }
+        //            throw (ex);
+        //        }
+
+
+        //    }
+        //    if (con != null)
+        //    {
+        //        // close the db connection
+        //        con.Close();
+        //    }
+        //    return sumOfNumEff;
+        //}
 
         private SqlCommand CreateCommandWithStoredProcedureGeneral(String spName, SqlConnection con, Dictionary<string, object> paramDic)
         {

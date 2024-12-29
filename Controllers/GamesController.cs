@@ -66,11 +66,11 @@ namespace Server.Controllers
                 }
             }
 
-            [HttpPost("InitPostForAllGames")]
-            public bool Post([FromBody] List<Game> games)
-            {
-                return Game.InsertAllGamesOnce(games);
-            }
+            //[HttpPost("InitPostForAllGames")]
+            //public bool Post([FromBody] List<Game> games)
+            //{
+            //    return Game.InsertAllGamesOnce(games);
+            //}
         }
         }
     
