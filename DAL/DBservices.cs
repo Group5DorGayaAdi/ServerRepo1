@@ -15,6 +15,7 @@ namespace Server.DAL
         public DBservices()
         {
         }
+        // yes we can
 
         public SqlConnection connect(String conString)
         {
