@@ -24,7 +24,7 @@ namespace Server.Controllers
             }
 
             [HttpPost("Register")]
-            public bool Register([FromBody] User newUser)
+            public int Register([FromBody] User newUser)
             {
                 return newUser.Register();
 
@@ -32,10 +32,10 @@ namespace Server.Controllers
 
 
             [HttpPost("Login")]
-            public bool Login([FromBody] User userToLogin)
+            public int Login([FromBody] User userToLogin)
             {
-                User user = new User();
-                return user.isValidUser(userToLogin.Email, userToLogin.Password);
+                //User user = new User();
+                return userToLogin.isValidUser();
             }
 
             // POST api/<UsersController>

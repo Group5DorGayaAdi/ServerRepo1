@@ -29,6 +29,98 @@ namespace Server.DAL
             return con;
         }
 
+
+        public int RegisterUser(User user)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@Name", user.Name);
+            paramDic.Add("@Email", user.Email);
+            paramDic.Add("@Password", user.Password);
+
+            cmd = CreateCommandWithStoredProcedureGeneral("SP_InsertUser", con, paramDic);          // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
+        public int LoginUser(User user)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+           // SqlParameter prm;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@Email", user.Email);
+            paramDic.Add("@Password", user.Password);
+
+            cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUserToLogin", con, paramDic);          // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
+
         //public int InitInsert(List<Game> listOfGames)
         //{
 
