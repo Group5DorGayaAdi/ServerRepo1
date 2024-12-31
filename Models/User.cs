@@ -53,13 +53,27 @@ namespace Server.Models
             return db.InsertUser(this);
         }
 
-        public bool isValidUser(string email, string password)
+        //public bool isValidUser(string email, string password)
+        //{
+        //    //foreach (var user in usersList)
+        //    //{
+        //    //    if (user.Email == email && user.Password == password)
+        //    //        return true;
+        //    //}
+        //    DBservices dBservices = new DBservices();
+        //    return dBservices.ReadUserToLogin(email,password);
+
+        //    throw new Exception($"User not found.");
+        //}
+        public User isValidUser(string email, string password)
         {
-            foreach (var user in usersList)
-            {
-                if (user.Email == email && user.Password == password)
-                    return true;
-            }
+            //foreach (var user in usersList)
+            //{
+            //    if (user.Email == email && user.Password == password)
+            //        return true;
+            //}
+            DBservices dBservices = new DBservices();
+            return dBservices.ReadUserToLogin(email, password);
 
             throw new Exception($"User not found.");
         }

@@ -8,12 +8,25 @@ using System.Text;
 using Server.Models;
 using System.Xml.Linq;
 
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Web;
+//using System.Data.SqlClient;
+//using System.Data;
+//using System.Text;
+//using RuppinProj.Models;
+//using CCEC___DR.BL;
+using System.Net.NetworkInformation;
+
 namespace Server.DAL
 {
     public class DBservices
     {
         public DBservices()
         {
+            //this.email = email;
+            //this.password = password;
         }
         // yes we can
 
@@ -153,7 +166,7 @@ namespace Server.DAL
 
 
 
-    private SqlCommand CreateCommandWithStoredProcedureGeneral(String spName, SqlConnection con, Dictionary<string, object> paramDic)
+        private SqlCommand CreateCommandWithStoredProcedureGeneral(String spName, SqlConnection con, Dictionary<string, object> paramDic)
         {
 
             SqlCommand cmd = new SqlCommand(); // create the command object
@@ -178,6 +191,64 @@ namespace Server.DAL
         }
 
 
-    
+        //Read User By Email and Password on Login
+        public User ReadUserToLogin(string email, string password)
+        {
+
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            // List<Flight> flights = new List<Flight>();
+            //User user = new User();
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@email", email);
+            paramDic.Add("@password", password);
+
+            cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUserToLogin", con, paramDic);
+
+            try
+            {
+
+                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                //while (dataReader.Read())
+                //{
+                    dataReader.Read();
+                    User u = new User();
+                   // f.Id = Convert.ToInt32(dataReader["Id"]);
+                    u.Email = dataReader["email"].ToString();
+                    u.Password = dataReader["password"].ToString();
+                    //f.Price = Convert.ToDouble(dataReader["Price"]);
+                    //flights.Add(f);
+               // }
+                return u;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
     }
+
 }
