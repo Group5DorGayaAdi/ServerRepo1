@@ -9,11 +9,11 @@ namespace Server.Controllers
         public class GamesController : ControllerBase
         {
             // GET: api/<GamesController>
-            [HttpGet]
-            public IEnumerable<Game> Get()
+            [HttpGet("getUserGameList/id/{id}")]
+            public List<Game> Get(int id)
             {
                 Game game = new Game();
-                return game.Read();
+                return game.Read(id);
             }
 
             // GET api/<GamesController>/5

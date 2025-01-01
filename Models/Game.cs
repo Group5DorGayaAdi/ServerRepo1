@@ -66,10 +66,13 @@ namespace Server.Models
             }
             gamesList.Add(this);
             return true;
+            //DBservices dbs = new DBservices();
+            //return dbs.insertGameToList(userID, gameID);
         }
-        public List<Game> Read()
+        public List<Game> Read(int id)
         {
-            return gamesList;
+            DBservices dbs = new DBservices();
+            return dbs.ReadAllGames(id);
         }
 
         public List<Game> GetGameByPrice(double price)

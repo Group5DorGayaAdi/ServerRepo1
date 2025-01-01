@@ -1,5 +1,6 @@
 ﻿
 using Server.DAL;
+using Server.Models;
 
 namespace Server.Models
 {
@@ -43,30 +44,16 @@ namespace Server.Models
         }
         public int Register()
         {
-            //foreach (var user in usersList)
-            //{
-            //    if (user.Email == this.Email)
-            //        return false;
-            //}
-            //usersList.Add(this);
             DBservices dbs = new DBservices();
             return dbs.RegisterUser(this);
         }
 
-        public bool isValidUser(string email, string password)
+        public User isValidUser(string email, string password)
         {
-            //foreach (var user in usersList)
-            //{
-            //    if (user.Email == email && user.Password == password)
-            //        return true;
-            //}
-
-            //throw new Exception($"User not found.");
             DBservices dbs = new DBservices();
             
             return dbs.LoginUser(email,password);
             throw new Exception($"User not found");
-
         }
     }
 }
