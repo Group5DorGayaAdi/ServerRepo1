@@ -57,15 +57,17 @@ namespace Server.Models
         public int NumberOfPurchases { get => numberOfPurchases; set => numberOfPurchases = value; }
         public bool Mac { get => mac; set => mac = value; }
 
-        public bool Insert()
+        public int InsertToFavorite(int id, int appID)
         {
-            for (int i = 0; i < gamesList.Count; i++)
-            {
-                if (this.appID == gamesList[i].appID)
-                    return false;
-            }
-            gamesList.Add(this);
-            return true;
+            //for (int i = 0; i < gamesList.Count; i++)
+            //{
+            //    if (this.appID == gamesList[i].appID)
+            //        return false;
+            //}
+            //gamesList.Add(this);
+            //return true;
+            DBservices db = new DBservices();
+            return db.AddGameToFavorites(id,appID);
         }
 
         //public string ShowUserName(int id)
