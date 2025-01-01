@@ -35,6 +35,7 @@ namespace Server.DAL
 
             SqlConnection con;
             SqlCommand cmd;
+           // SqlParameter prm;
 
 
             try
@@ -76,7 +77,7 @@ namespace Server.DAL
 
         }
 
-        public int LoginUser(User user)
+        public bool LoginUser(User user)
         {
 
             SqlConnection con;
@@ -93,16 +94,27 @@ namespace Server.DAL
                 throw (ex);
             }
 
+
+
             Dictionary<string, object> paramDic = new Dictionary<string, object>();
             paramDic.Add("@Email", user.Email);
             paramDic.Add("@Password", user.Password);
 
-            cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUserToLogin", con, paramDic);          // create the command
+            cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUserToLogin1", con, paramDic);          // create the command
 
             try
             {
-                int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                return numEffected;
+                SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                if (reader.Read()) {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                //int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                //return numEffected;
             }
             catch (Exception ex)
             {
@@ -203,7 +215,6 @@ namespace Server.DAL
                 foreach (KeyValuePair<string, object> param in paramDic)
                 {
                     cmd.Parameters.AddWithValue(param.Key, param.Value);
-
                 }
 
 

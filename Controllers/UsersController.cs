@@ -32,10 +32,10 @@ namespace Server.Controllers
 
 
             [HttpPost("Login")]
-            public int Login([FromBody] User userToLogin)
+            public bool Login([FromBody] User userToLogin)
             {
                 //User user = new User();
-                return userToLogin.isValidUser();
+                return userToLogin.isValidUser(userToLogin);
             }
 
             // POST api/<UsersController>
