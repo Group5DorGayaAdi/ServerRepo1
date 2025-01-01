@@ -34,8 +34,8 @@ namespace Server.Controllers
             [HttpPost("Login")]
             public bool Login([FromBody] User userToLogin)
             {
-                //User user = new User();
-                return userToLogin.isValidUser(userToLogin);
+                User user = new User();
+                return user.isValidUser(userToLogin.Email,userToLogin.Password);
             }
 
             // POST api/<UsersController>

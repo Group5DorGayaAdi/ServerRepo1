@@ -77,7 +77,7 @@ namespace Server.DAL
 
         }
 
-        public bool LoginUser(User user)
+        public bool LoginUser(string email,string password)
         {
 
             SqlConnection con;
@@ -97,29 +97,42 @@ namespace Server.DAL
 
 
             Dictionary<string, object> paramDic = new Dictionary<string, object>();
-            paramDic.Add("@Email", user.Email);
-            paramDic.Add("@Password", user.Password);
+            paramDic.Add("@Email", email);
+            paramDic.Add("@Password", password);
+
+            //User u= new User();
 
             cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUserToLogin1", con, paramDic);          // create the command
 
             try
             {
-                SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = cmd.ExecuteReader();
 
-                if (reader.Read()) {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                reader.Read();
+                User u = new User();
+                u.Email = reader["email"].ToString();
+                u.Password = reader["password"].ToString();
+
+                return true;
+                //if (reader.Read()) {
+                //    u.Id= Convert.ToInt32(reader["id"]);
+                //    u.Name = reader["name"].ToString();
+                //    u.Email = reader["email"].ToString();
+                //    u.Password = reader["password"].ToString();
+                //}
+                //return u;
+                //else
+                //{
+                //    return false;
+                //}
                 //int numEffected = cmd.ExecuteNonQuery(); // execute the command
                 //return numEffected;
             }
             catch (Exception ex)
             {
                 // write to log
-                throw (ex);
+                //0throw (ex);
+                return false;
             }
 
             finally
@@ -130,6 +143,7 @@ namespace Server.DAL
                     con.Close();
                 }
             }
+            //return false;
 
         }
 

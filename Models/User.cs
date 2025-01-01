@@ -53,7 +53,7 @@ namespace Server.Models
             return dbs.RegisterUser(this);
         }
 
-        public bool isValidUser(User user)
+        public bool isValidUser(string email, string password)
         {
             //foreach (var user in usersList)
             //{
@@ -63,7 +63,9 @@ namespace Server.Models
 
             //throw new Exception($"User not found.");
             DBservices dbs = new DBservices();
-            return dbs.LoginUser(user);
+            
+            return dbs.LoginUser(email,password);
+            throw new Exception($"User not found");
 
         }
     }
