@@ -65,7 +65,7 @@ namespace Server.Models
 
         //    throw new Exception($"User not found.");
         //}
-        public User isValidUser(string email, string password)
+        public bool isValidUser(string email, string password)
         {
             //foreach (var user in usersList)
             //{

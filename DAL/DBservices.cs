@@ -18,6 +18,7 @@ using System.Xml.Linq;
 //using RuppinProj.Models;
 //using CCEC___DR.BL;
 using System.Net.NetworkInformation;
+using System.Data.Common;
 
 namespace Server.DAL
 {
@@ -192,7 +193,7 @@ namespace Server.DAL
 
 
         //Read User By Email and Password on Login
-        public User ReadUserToLogin(string email, string password)
+        public bool ReadUserToLogin(string email, string password)
         {
 
             SqlConnection con;
@@ -217,6 +218,15 @@ namespace Server.DAL
 
             cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUserToLogin", con, paramDic);
 
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            //if (!reader.HasRows) // בדיקה אם אין שורות בתוצאה
+            //{
+            //    // אם אין תוצאות
+            //    Console.WriteLine("No user found.");
+            //    return null; // או פעולת שגיאה אחרת
+            //}
+
             try
             {
 
@@ -224,20 +234,21 @@ namespace Server.DAL
 
                 //while (dataReader.Read())
                 //{
-                    dataReader.Read();
-                    User u = new User();
-                   // f.Id = Convert.ToInt32(dataReader["Id"]);
-                    u.Email = dataReader["email"].ToString();
-                    u.Password = dataReader["password"].ToString();
-                    //f.Price = Convert.ToDouble(dataReader["Price"]);
-                    //flights.Add(f);
-               // }
-                return u;
+                dataReader.Read();
+                User u = new User();
+                // f.Id = Convert.ToInt32(dataReader["Id"]);
+                u.Email = dataReader["email"].ToString();
+                u.Password = dataReader["password"].ToString();
+                //f.Price = Convert.ToDouble(dataReader["Price"]);
+                //flights.Add(f);
+                // }
+                return true;
             }
             catch (Exception ex)
             {
                 // write to log
-                throw (ex);
+                //throw (ex);
+                return false;
             }
             finally
             {
@@ -249,6 +260,7 @@ namespace Server.DAL
             }
         }
 
+       
     }
 
 }

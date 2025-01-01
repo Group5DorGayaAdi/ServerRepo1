@@ -26,17 +26,17 @@ namespace Server.Controllers
             [HttpPost("Register")]
             public int Register([FromBody] User newUser)
             {
-            if (newUser.Register()==-1)
-            {
-                throw new Exception("email already exist");
-            }
+            //if (newUser.Register()==-1)
+            //{
+            //    throw new Exception("email already exist");
+            //}
                 return newUser.Register();
 
             }
 
 
             [HttpPost("Login")]
-            public User Login([FromBody] User userToLogin)
+            public bool Login([FromBody] User userToLogin)
             {
                 User user = new User();
                 return user.isValidUser(userToLogin.Email, userToLogin.Password);
