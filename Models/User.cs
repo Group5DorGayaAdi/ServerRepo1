@@ -41,6 +41,7 @@ namespace Server.Models
         {
             return usersList;
         }
+
         public int Register()
         {
             //foreach (var user in usersList)
@@ -65,7 +66,7 @@ namespace Server.Models
 
         //    throw new Exception($"User not found.");
         //}
-        public bool isValidUser(string email, string password)
+        public User isValidUser(string email, string password)
         {
             //foreach (var user in usersList)
             //{

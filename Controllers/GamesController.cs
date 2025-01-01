@@ -8,16 +8,26 @@ namespace Server.Controllers
         [ApiController]
         public class GamesController : ControllerBase
         {
-            // GET: api/<GamesController>
-            [HttpGet]
-            public IEnumerable<Game> Get()
-            {
-                Game game = new Game();
-                return game.Read();
-            }
+        // GET: api/<GamesController>
+        //[HttpGet]
+        //public IEnumerable<Game> Get()
+        //{
+        //    Game game = new Game();
+        //    return game.Read();
+        //}
+        [HttpGet("getUserGameList/id/{id}")]
+        public List<Game> Get(int id)
+        {
+            Game game = new Game();
+            return game.Read(id);
+        }
 
-            // GET api/<GamesController>/5
-            [HttpGet("searchByPrice")]
+
+
+
+
+        // GET api/<GamesController>/5
+        [HttpGet("searchByPrice")]
             public IEnumerable<Game> GetByPrice(double price)
             {
                 Game game = new Game();
@@ -43,6 +53,7 @@ namespace Server.Controllers
             [HttpPut("{id}")]
             public void Put(int id, [FromBody] string value)
             {
+            
             }
 
 

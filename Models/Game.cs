@@ -67,9 +67,17 @@ namespace Server.Models
             gamesList.Add(this);
             return true;
         }
-        public List<Game> Read()
+
+        //public string ShowUserName(int id)
+        //{
+        //    DBservices db = new DBservices();
+        //    return db.ReadUserNameById(id);
+        //}
+        public List<Game> Read(int id)
         {
-            return gamesList;
+            DBservices db = new DBservices();
+            return db.ReadAllGames(id);
+            //return gamesList;
         }
 
         public List<Game> GetGameByPrice(double price)

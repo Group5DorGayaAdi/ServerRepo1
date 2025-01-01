@@ -193,7 +193,7 @@ namespace Server.DAL
 
 
         //Read User By Email and Password on Login
-        public bool ReadUserToLogin(string email, string password)
+        public User ReadUserToLogin(string email, string password)
         {
 
             SqlConnection con;
@@ -216,9 +216,9 @@ namespace Server.DAL
             paramDic.Add("@email", email);
             paramDic.Add("@password", password);
 
-            cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUserToLogin", con, paramDic);
+            cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUserToLogin1", con, paramDic);
 
-            SqlDataReader reader = cmd.ExecuteReader();
+            //SqlDataReader reader = cmd.ExecuteReader();
 
             //if (!reader.HasRows) // בדיקה אם אין שורות בתוצאה
             //{
@@ -230,25 +230,28 @@ namespace Server.DAL
             try
             {
 
-                SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader dataReader = cmd.ExecuteReader();
 
                 //while (dataReader.Read())
                 //{
                 dataReader.Read();
                 User u = new User();
                 // f.Id = Convert.ToInt32(dataReader["Id"]);
+                
                 u.Email = dataReader["email"].ToString();
                 u.Password = dataReader["password"].ToString();
+                u.Name = dataReader["name"].ToString();
+                u.Id = Convert.ToInt32(dataReader["id"]);
                 //f.Price = Convert.ToDouble(dataReader["Price"]);
                 //flights.Add(f);
                 // }
-                return true;
+                return u;
             }
             catch (Exception ex)
             {
                 // write to log
                 //throw (ex);
-                return false;
+                return null;
             }
             finally
             {
@@ -260,7 +263,130 @@ namespace Server.DAL
             }
         }
 
-       
-    }
+        public List<Game> ReadAllGames(int id)
+        {
 
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@id", id);
+
+            List<Game> games = new List<Game>();
+
+            cmd = CreateCommandWithStoredProcedureGeneral("SP_ReadAllGames", con, paramDic);
+
+            try
+            {
+
+                SqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    Game g = new Game();
+                    g.AppID = Convert.ToInt32(dataReader["appID"]);
+                    g.Name = dataReader["name"].ToString();
+                    g.ReleaseDate = Convert.ToDateTime(dataReader["releaseDate"]);
+                    g.Price = Convert.ToDouble(dataReader["price"]);
+                    g.Description = dataReader["description"].ToString();
+                    g.HeaderImage = dataReader["headerImage"].ToString();
+                    g.Website = dataReader["website"].ToString();
+                    g.Windows = Convert.ToBoolean(dataReader["IsWindows"]);
+                    g.Mac = Convert.ToBoolean(dataReader["IsMac"]);
+                    g.Linux = Convert.ToBoolean(dataReader["IsLinux"]);
+                    g.ScoreRank = Convert.ToInt32(dataReader["scoreRank"]);
+                    g.Recommendations = dataReader["recommendations"].ToString();
+                    g.Publisher = dataReader["publisher"].ToString();
+                    g.NumberOfPurchases = Convert.ToInt32(dataReader["numberOfPurchases"]);
+                    games.Add(g);
+                }
+                return games;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+
+    }
 }
+
+
+
+
+////Read By Price
+//public string ReadUserNameById(int id)
+//        {
+
+//            SqlConnection con;
+//            SqlCommand cmd;
+
+//            try
+//            {
+//                con = connect("myProjDB"); // create the connection
+//            }
+//            catch (Exception ex)
+//            {
+//                // write to log
+//                throw (ex);
+//            }
+
+//            // List<Flight> flights = new List<Flight>();
+
+//            //User user = new User();
+
+//            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+//            paramDic.Add("@id", id);
+
+//            cmd = CreateCommandWithStoredProcedureGeneral("SP_ReadUserNameForIndex", con, paramDic);
+
+//            try
+//            {
+
+//                // SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+//                SqlDataReader dataReader = cmd.ExecuteReader();
+//                dataReader.Read();
+
+//                User u = new User();
+//                u.Id = Convert.ToInt32(dataReader["id"]);
+//                u.Name = dataReader["name"].ToString();
+
+
+//                return u.Email;
+//            }
+//            catch (Exception ex)
+//            {
+//                // write to log
+//                throw (ex);
+//            }
+//            finally
+//            {
+//                if (con != null)
+//                {
+//                    // close the db connection
+//                    con.Close();
+//                }
+//            }
+//        }
+//    }
+
