@@ -57,23 +57,24 @@ namespace Server.Models
         public int NumberOfPurchases { get => numberOfPurchases; set => numberOfPurchases = value; }
         public bool Mac { get => mac; set => mac = value; }
 
-        public bool Insert()
+        public int Insert(int userID, int gameID)
         {
-            for (int i = 0; i < gamesList.Count; i++)
-            {
-                if (this.appID == gamesList[i].appID)
-                    return false;
-            }
-            gamesList.Add(this);
-            return true;
-            //DBservices dbs = new DBservices();
-            //return dbs.insertGameToList(userID, gameID);
+            //for (int i = 0; i < gamesList.Count; i++)
+            //{
+            //    if (this.appID == gamesList[i].appID)
+            //        return false;
+            //}
+            //gamesList.Add(this);
+            //return true;
+            DBservices dbs = new DBservices();
+            return dbs.AddGameToFavorites(userID, gameID);
         }
         public List<Game> Read(int id)
         {
             DBservices dbs = new DBservices();
             return dbs.ReadAllGames(id);
         }
+
 
         public List<Game> GetGameByPrice(double price)
         {

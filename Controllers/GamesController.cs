@@ -33,10 +33,11 @@ namespace Server.Controllers
             }
 
             // POST api/<GamesController>
-            [HttpPost]
-            public bool Post([FromBody] Game game)
+            [HttpPost("addToFavorites/id/{id}/appID/{appID}")]
+            public int Post(int id, int appID)
             {
-                return game.Insert();
+                Game game = new Game();
+                return game.Insert(id, appID);
             }
 
             // PUT api/<GamesController>/5

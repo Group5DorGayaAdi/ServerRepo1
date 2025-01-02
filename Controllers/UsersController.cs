@@ -30,7 +30,6 @@ namespace Server.Controllers
 
             }
 
-
             [HttpPost("Login")]
             public User Login([FromBody] User userToLogin)
             {

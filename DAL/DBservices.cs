@@ -199,7 +199,52 @@ namespace Server.DAL
             }
         }
 
+        public int AddGameToFavorites(int userID, int gameID)
+        {
 
+            SqlConnection con;
+            SqlCommand cmd;
+            // SqlParameter prm;
+
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@id", userID);
+            paramDic.Add("@appID", gameID);
+            
+
+            cmd = CreateCommandWithStoredProcedureGeneral("SP_UserBuyGame", con, paramDic);          // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+
+        }
 
 
         //public int insertGameToList(int userID, int gameID)
