@@ -82,40 +82,53 @@ namespace Server.Models
             //return gamesList;
         }
 
-        public List<Game> GetGameByPrice(double price)
+        public List<Game> ReadWishList(int id)
         {
-            List<Game> selectedList = new List<Game>();
-            foreach (Game g in gamesList)
-            {
-                if (g.price >= price)
-                    selectedList.Add(g);
-            }
-            return selectedList;
+            DBservices db = new DBservices();
+            return db.ReadUsersWishList(id);
+            //return gamesList;
         }
 
-        public List<Game> GetGamesByRankScore(int rank)
+        public List<Game> GetGameByPrice(double price,int id)
         {
-            List<Game> selectedList = new List<Game>();
-            foreach (Game g in gamesList)
-            {
-                if (g.scoreRank >= rank)
-                    selectedList.Add(g);
-            }
-            return selectedList;
+            //List<Game> selectedList = new List<Game>();
+            //foreach (Game g in gamesList)
+            //{
+            //    if (g.price >= price)
+            //        selectedList.Add(g);
+            //}
+            //return selectedList;
+            DBservices db = new DBservices();
+            return db.ReadGamesByMinPrice(price, id);
         }
 
-        public void DeleteFromGamesList(int id)
+        public List<Game> GetGamesByRankScore(int rank, int id)
         {
-            if (gamesList.Count == 0)
-            {
-                throw new Exception("No Games in the list");
-            }
-            Game gameToRemove = gamesList.Find(game => game.appID == id);
-            if (gameToRemove == null)
-            {
-                throw new Exception($"Game with ID {id} not found.");
-            }
-            gamesList.Remove(gameToRemove);
+            //List<Game> selectedList = new List<Game>();
+            //foreach (Game g in gamesList)
+            //{
+            //    if (g.scoreRank >= rank)
+            //        selectedList.Add(g);
+            //}
+            //return selectedList;
+            DBservices db = new DBservices();
+            return db.ReadGamesByMinRank(rank, id);
+        }
+
+        public int DeleteFromGamesList(int id, int appID)
+        {
+            DBservices db = new DBservices();
+            return db.DeleteFromWishList(id,appID);
+            //if (gamesList.Count == 0)
+            //{
+            //    throw new Exception("No Games in the list");
+            //}
+            //Game gameToRemove = gamesList.Find(game => game.appID == id);
+            //if (gameToRemove == null)
+            //{
+            //    throw new Exception($"Game with ID {id} not found.");
+            //}
+            //gamesList.Remove(gameToRemove);
         }
 
         //static public bool InsertAllGamesOnce(List<Game> AllGames)
