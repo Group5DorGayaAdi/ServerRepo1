@@ -51,8 +51,10 @@ namespace Server.Controllers
 
             // PUT api/<UsersController>/5
             [HttpPut("{id}")]
-            public void Put(int id, [FromBody] string value)
+            public int Put(int id, [FromBody] User user)
             {
+                User newUser = new User(id, user.Name,user.Email,user.Password);
+                return newUser.updateUserDet(newUser);
             }
 
             // DELETE api/<UsersController>/5

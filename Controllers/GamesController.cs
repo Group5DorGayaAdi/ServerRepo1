@@ -8,13 +8,7 @@ namespace Server.Controllers
         [ApiController]
         public class GamesController : ControllerBase
         {
-        // GET: api/<GamesController>
-        //[HttpGet]
-        //public IEnumerable<Game> Get()
-        //{
-        //    Game game = new Game();
-        //    return game.Read();
-        //}
+
         [HttpGet("getUserGameList/id/{id}")]
         public List<Game> Get(int id)
         {
@@ -53,12 +47,12 @@ namespace Server.Controllers
                 return game.InsertToFavorite(id,appID);
             }
 
-            // PUT api/<GamesController>/5
-            [HttpPut("{id}")]
-            public void Put(int id, [FromBody] string value)
-            {
+            //// PUT api/<GamesController>/5
+            //[HttpPut("{id}")]
+            //public void Put(int id, [FromBody] string value)
+            //{
             
-            }
+            //}
 
 
             [HttpDelete("DeleteByID/id/{id}/appID/{appID}")]

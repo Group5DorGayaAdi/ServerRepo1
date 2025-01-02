@@ -37,6 +37,14 @@ namespace Server.Models
             usersList.Add(this);
             return true;
         }
+
+        public int updateUserDet(User user)
+        {
+            DBservices db = new DBservices();
+            return db.UpdateUser(user);
+        }
+
+
         public List<User> Read()
         {
             return usersList;
