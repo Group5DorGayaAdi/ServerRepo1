@@ -7,16 +7,6 @@ using System.Data;
 using System.Text;
 using Server.Models;
 using System.Xml.Linq;
-
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Web;
-//using System.Data.SqlClient;
-//using System.Data;
-//using System.Text;
-//using RuppinProj.Models;
-//using CCEC___DR.BL;
 using System.Net.NetworkInformation;
 using System.Data.Common;
 
@@ -75,11 +65,7 @@ namespace Server.DAL
         //        paramDic.Add("@Publisher", game.Publisher);
         //        paramDic.Add("@ReleaseDate", game.ReleaseDate);
         //        paramDic.Add("@NumberOfPurchases", 0);
-
-
-
         //        cmd = CreateCommandWithStoredProcedureGeneral("SP_InsertGame", con, paramDic);        // create the command
-
         //        try
         //        {
         //            int numEffected = cmd.ExecuteNonQuery(); // execute the command
@@ -95,8 +81,6 @@ namespace Server.DAL
         //            }
         //            throw (ex);
         //        }
-
-
         //    }
         //    if (con != null)
         //    {
@@ -105,10 +89,10 @@ namespace Server.DAL
         //    }
         //    return sumOfNumEff;
         //}
-
+        
+        //Create a new user
         public int InsertUser(User user)
         {
-
             SqlConnection con;
             SqlCommand cmd;
 
@@ -149,9 +133,9 @@ namespace Server.DAL
             }
         }
 
-        public int UpdateUser(User user)
+        //Update users details
+        public User UpdateUser(User user)
         {
-
             SqlConnection con;
             SqlCommand cmd;
 
@@ -175,8 +159,18 @@ namespace Server.DAL
 
             try
             {
-                int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                return numEffected;
+                SqlDataReader dataReader = cmd.ExecuteReader();
+
+                dataReader.Read();
+                User u = new User();
+
+                u.Email = dataReader["email"].ToString();
+                u.Password = dataReader["password"].ToString();
+                u.Name = dataReader["name"].ToString();
+                u.Id = Convert.ToInt32(dataReader["id"]);
+                return u;
+                //int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                //return numEffected;
             }
             catch (Exception ex)
             {
@@ -217,7 +211,6 @@ namespace Server.DAL
 
             try
             {
-
                 SqlDataReader dataReader = cmd.ExecuteReader();
 
                 dataReader.Read();
@@ -243,6 +236,7 @@ namespace Server.DAL
             }
         }
 
+        //Read all games that dont exist in the users wish list
         public List<Game> ReadAllGames(int id)
         {
             SqlConnection con;
@@ -304,9 +298,9 @@ namespace Server.DAL
             }
         }
 
+        //Read all games that exist in the users wish list
         public List<Game> ReadUsersWishList(int id)
         {
-
             SqlConnection con;
             SqlCommand cmd;
 
@@ -319,6 +313,7 @@ namespace Server.DAL
                 // write to log
                 throw (ex);
             }
+
             Dictionary<string, object> paramDic = new Dictionary<string, object>();
             paramDic.Add("@id", id);
 
@@ -367,6 +362,7 @@ namespace Server.DAL
             }
         }
 
+        //Filter games by price
         public List<Game> ReadGamesByMinPrice(double price, int id)
         {
             SqlConnection con;
@@ -381,6 +377,7 @@ namespace Server.DAL
                 // write to log
                 throw (ex);
             }
+
             Dictionary<string, object> paramDic = new Dictionary<string, object>();
             paramDic.Add("@price", price);
             paramDic.Add("@id", id);
@@ -429,6 +426,7 @@ namespace Server.DAL
             }
         }
 
+        //Read games by ScoreRank
         public List<Game> ReadGamesByMinRank(int scoreRank, int id)
         {
             SqlConnection con;
@@ -491,10 +489,9 @@ namespace Server.DAL
             }
         }
 
-        //
+        //Insert game into a users wish list
         public int AddGameToFavorites(int id, int appID)
         {
-
             SqlConnection con;
             SqlCommand cmd;
 
@@ -536,6 +533,7 @@ namespace Server.DAL
             }
         }
 
+        //Delete a game from a users wish list
         public int DeleteFromWishList(int id, int appID)
         {
             SqlConnection con;
@@ -580,7 +578,6 @@ namespace Server.DAL
         }
         private SqlCommand CreateCommandWithStoredProcedureGeneral(String spName, SqlConnection con, Dictionary<string, object> paramDic)
         {
-
             SqlCommand cmd = new SqlCommand(); // create the command object
 
             cmd.Connection = con;              // assign the connection to the command object
@@ -603,64 +600,3 @@ namespace Server.DAL
 
     }
 }
-
-
-
-
-////Read By Price
-//public string ReadUserNameById(int id)
-//        {
-
-//            SqlConnection con;
-//            SqlCommand cmd;
-
-//            try
-//            {
-//                con = connect("myProjDB"); // create the connection
-//            }
-//            catch (Exception ex)
-//            {
-//                // write to log
-//                throw (ex);
-//            }
-
-//            // List<Flight> flights = new List<Flight>();
-
-//            //User user = new User();
-
-//            Dictionary<string, object> paramDic = new Dictionary<string, object>();
-//            paramDic.Add("@id", id);
-
-//            cmd = CreateCommandWithStoredProcedureGeneral("SP_ReadUserNameForIndex", con, paramDic);
-
-//            try
-//            {
-
-//                // SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-//                SqlDataReader dataReader = cmd.ExecuteReader();
-//                dataReader.Read();
-
-//                User u = new User();
-//                u.Id = Convert.ToInt32(dataReader["id"]);
-//                u.Name = dataReader["name"].ToString();
-
-
-//                return u.Email;
-//            }
-//            catch (Exception ex)
-//            {
-//                // write to log
-//                throw (ex);
-//            }
-//            finally
-//            {
-//                if (con != null)
-//                {
-//                    // close the db connection
-//                    con.Close();
-//                }
-//            }
-//        }
-//    }
-

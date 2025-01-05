@@ -5,8 +5,6 @@ namespace Server.Models
 {
     public class Game
     {
-        // the right one
-
         private int appID;
         private string name;
         private DateTime releaseDate;
@@ -21,7 +19,7 @@ namespace Server.Models
         private string recommendations;
         private string publisher;
         private int numberOfPurchases;
-        public static List<Game> gamesList = new List<Game>();
+       // public static List<Game> gamesList = new List<Game>();
         public Game() { }
 
         public Game(int appID, string name, DateTime releaseDate, double price, string description, string headerImage, string website, bool windows, bool mac, bool linux, int scoreRank, string recommendations, string publisher, int numberOfPurchases)
@@ -59,58 +57,29 @@ namespace Server.Models
 
         public int InsertToFavorite(int id, int appID)
         {
-            //for (int i = 0; i < gamesList.Count; i++)
-            //{
-            //    if (this.appID == gamesList[i].appID)
-            //        return false;
-            //}
-            //gamesList.Add(this);
-            //return true;
             DBservices db = new DBservices();
             return db.AddGameToFavorites(id,appID);
         }
-
-        //public string ShowUserName(int id)
-        //{
-        //    DBservices db = new DBservices();
-        //    return db.ReadUserNameById(id);
-        //}
         public List<Game> Read(int id)
         {
             DBservices db = new DBservices();
             return db.ReadAllGames(id);
-            //return gamesList;
         }
 
         public List<Game> ReadWishList(int id)
         {
             DBservices db = new DBservices();
             return db.ReadUsersWishList(id);
-            //return gamesList;
         }
 
         public List<Game> GetGameByPrice(double price,int id)
         {
-            //List<Game> selectedList = new List<Game>();
-            //foreach (Game g in gamesList)
-            //{
-            //    if (g.price >= price)
-            //        selectedList.Add(g);
-            //}
-            //return selectedList;
             DBservices db = new DBservices();
             return db.ReadGamesByMinPrice(price, id);
         }
 
         public List<Game> GetGamesByRankScore(int rank, int id)
         {
-            //List<Game> selectedList = new List<Game>();
-            //foreach (Game g in gamesList)
-            //{
-            //    if (g.scoreRank >= rank)
-            //        selectedList.Add(g);
-            //}
-            //return selectedList;
             DBservices db = new DBservices();
             return db.ReadGamesByMinRank(rank, id);
         }
@@ -119,16 +88,6 @@ namespace Server.Models
         {
             DBservices db = new DBservices();
             return db.DeleteFromWishList(id,appID);
-            //if (gamesList.Count == 0)
-            //{
-            //    throw new Exception("No Games in the list");
-            //}
-            //Game gameToRemove = gamesList.Find(game => game.appID == id);
-            //if (gameToRemove == null)
-            //{
-            //    throw new Exception($"Game with ID {id} not found.");
-            //}
-            //gamesList.Remove(gameToRemove);
         }
 
         //static public bool InsertAllGamesOnce(List<Game> AllGames)

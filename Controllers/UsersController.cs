@@ -10,11 +10,11 @@ namespace Server.Controllers
         {
             // GET: api/<UsersController>
             [HttpGet]
-            public IEnumerable<User> Get()
-            {
-                User user = new User();
-                return user.Read();
-            }
+            //public IEnumerable<User> Get()
+            //{
+            //    User user = new User();
+            //    return user.Read();
+            //}
 
             // GET api/<UsersController>/5
             [HttpGet("{id}")]
@@ -26,12 +26,7 @@ namespace Server.Controllers
             [HttpPost("Register")]
             public int Register([FromBody] User newUser)
             {
-            //if (newUser.Register()==-1)
-            //{
-            //    throw new Exception("email already exist");
-            //}
                 return newUser.Register();
-
             }
 
 
@@ -42,26 +37,26 @@ namespace Server.Controllers
                 return user.isValidUser(userToLogin.Email, userToLogin.Password);
             }
 
-            // POST api/<UsersController>
-            [HttpPost]
-            public bool Post([FromBody] User user)
-            {
-                return user.Insert();
-            }
+            //// POST api/<UsersController>
+            //[HttpPost]
+            //public bool Post([FromBody] User user)
+            //{
+            //    return user.Insert();
+            //}
 
             // PUT api/<UsersController>/5
             [HttpPut("{id}")]
-            public int Put(int id, [FromBody] User user)
+            public User Put(int id, [FromBody] User user)
             {
                 User newUser = new User(id, user.Name,user.Email,user.Password);
                 return newUser.updateUserDet(newUser);
             }
 
-            // DELETE api/<UsersController>/5
-            [HttpDelete("{id}")]
-            public void Delete(int id)
-            {
-            }
+            //// DELETE api/<UsersController>/5
+            //[HttpDelete("{id}")]
+            //public void Delete(int id)
+            //{
+            //}
         }
     }
 
