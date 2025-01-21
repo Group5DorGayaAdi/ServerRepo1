@@ -31,7 +31,14 @@ namespace Server.Controllers
                  return game.GetGameByPrice(price,id);
             }
 
-            [HttpGet("searchByRankScore/scoreRank/{scoreRank}/id/{id}")]
+        [HttpGet("GetGamesAdmin")]
+        public Object postGames()
+        {
+            Game g = new Game();
+            return g.getGamesAdminList();
+        }
+
+        [HttpGet("searchByRankScore/scoreRank/{scoreRank}/id/{id}")]
             public List<Game> GetByRankScore(int scoreRank, int id)
             {
                  Game game = new Game();

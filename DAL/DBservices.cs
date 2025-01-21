@@ -133,6 +133,48 @@ namespace Server.DAL
             }
         }
 
+        public int ChangeActiveStatus(User user)
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+            paramDic.Add("@isActive", user.IsActive);
+            paramDic.Add("@id", user.Id);
+
+            cmd = CreateCommandWithStoredProcedureGeneral("SP_ChangeActiveStatus", con, paramDic);        // create the command
+
+            try
+            {
+                int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                return numEffected;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+
         //Update users details
         public User UpdateUser(User user)
         {
@@ -169,8 +211,6 @@ namespace Server.DAL
                 u.Name = dataReader["name"].ToString();
                 u.Id = Convert.ToInt32(dataReader["id"]);
                 return u;
-                //int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                //return numEffected;
             }
             catch (Exception ex)
             {
@@ -220,11 +260,115 @@ namespace Server.DAL
                 u.Password = dataReader["password"].ToString();
                 u.Name = dataReader["name"].ToString();
                 u.Id = Convert.ToInt32(dataReader["id"]);
+                u.IsActive=Convert.ToBoolean(dataReader["isActive"]);
                 return u;
             }
             catch (Exception ex)
             {
                 return null;
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        public List<Object> getGamesAd()
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+            List<Object> games = new List<Object>();
+
+            cmd = CreateCommandWithStoredProcedureGeneral("SP_GamesListWithRevenue", con, paramDic); 
+
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    Object g = new Object();
+                    games.Add(new
+                    {
+                        AppID = Convert.ToInt16(dataReader["AppID"]),
+                        AppName = dataReader["AppName"].ToString(),
+                        numOfPurcheses = Convert.ToInt16(dataReader["numOfPurcheses"]),
+                        revenue = Convert.ToDouble(dataReader["revenue"])
+                    });
+                }
+                return games;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    // close the db connection
+                    con.Close();
+                }
+            }
+        }
+
+        public List<User> UsersList()
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+
+            try
+            {
+                con = connect("myProjDB"); // create the connection
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
+            }
+            Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+            List<User> users = new List<User>();
+
+            cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUsersDetails", con, paramDic);
+
+            try
+            {
+                SqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    User u = new User();
+                    u.Id = Convert.ToInt16(dataReader["UsersID"]);
+                    u.Name = dataReader["UsersName"].ToString();
+                    u.Email= dataReader["UsersEmail"].ToString();
+                    u.Password = dataReader["UsersPassword"].ToString();
+                    u.IsActive = Convert.ToBoolean(dataReader["ActiveStatus"]);
+                    users.Add(u);
+                }
+                return users;
+            }
+            catch (Exception ex)
+            {
+                // write to log
+                throw (ex);
             }
             finally
             {

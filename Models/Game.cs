@@ -19,7 +19,6 @@ namespace Server.Models
         private string recommendations;
         private string publisher;
         private int numberOfPurchases;
-       // public static List<Game> gamesList = new List<Game>();
         public Game() { }
 
         public Game(int appID, string name, DateTime releaseDate, double price, string description, string headerImage, string website, bool windows, bool mac, bool linux, int scoreRank, string recommendations, string publisher, int numberOfPurchases)
@@ -55,6 +54,11 @@ namespace Server.Models
         public int NumberOfPurchases { get => numberOfPurchases; set => numberOfPurchases = value; }
         public bool Mac { get => mac; set => mac = value; }
 
+        public Object getGamesAdminList()
+        {
+            DBservices db = new DBservices();
+            return db.getGamesAd();
+        }
         public int InsertToFavorite(int id, int appID)
         {
             DBservices db = new DBservices();

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Server.Models;
+using System.Text.Json;
 
 namespace Server.Controllers
 {
@@ -17,10 +18,11 @@ namespace Server.Controllers
             //}
 
             // GET api/<UsersController>/5
-            [HttpGet("{id}")]
-            public string Get(int id)
+            [HttpGet("GetList")]
+            public List<User> Get()
             {
-                return "value";
+                User user = new User();
+                return user.GetUsersList();
             }
 
             [HttpPost("Register")]
@@ -31,24 +33,47 @@ namespace Server.Controllers
 
 
             [HttpPost("Login")]
-            public User Login([FromBody] User userToLogin)
+            public IActionResult Login([FromBody] User userToLogin)
+            {
+            try
             {
                 User user = new User();
-                return user.isValidUser(userToLogin.Email, userToLogin.Password);
+                User isValidUser = user.isValidUser(userToLogin.Email, userToLogin.Password);
+                return Ok(isValidUser);
+                //return user.isValidUser(userToLogin.Email, userToLogin.Password);
+            }
+            catch(Exception ex)
+            {
+                if (ex.Message == "User not active.")
+                {
+                    return BadRequest(new { message = "User not active." });
+                }
+
+                return NotFound(new { message = "User not found." });
             }
 
-            //// POST api/<UsersController>
-            //[HttpPost]
-            //public bool Post([FromBody] User user)
-            //{
-            //    return user.Insert();
-            //}
+        }
 
-            // PUT api/<UsersController>/5
-            [HttpPut("{id}")]
+
+        //// POST api/<UsersController>
+        //[HttpPost]
+        //public bool Post([FromBody] User user)
+        //{
+        //    return user.Insert();
+        //}
+
+        [HttpPut("UpdateIsActive")]
+        public int updateIsActive([FromBody] User user)
+        {
+            User newUser = new User();
+            return newUser.updateUserActive(user);
+        }
+
+        // PUT api/<UsersController>/5
+        [HttpPut("{id}")]
             public User Put(int id, [FromBody] User user)
             {
-                User newUser = new User(id, user.Name,user.Email,user.Password);
+                User newUser = new User(id, user.Name,user.Email,user.Password,user.IsActive);
                 return newUser.updateUserDet(newUser);
             }
 
