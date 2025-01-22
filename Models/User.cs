@@ -27,11 +27,6 @@ namespace Server.Models
         public string Password { get => password; set => password = value; }
         public bool IsActive { get => isActive; set => isActive = value; }
 
-       //public List<User> GetUsersList() {
-       //     DBservices db = new DBservices();
-       //     return db.UsersList();
-       // }
-
         public List<Object> GetUsersAList()
         {
             DBservices db = new DBservices();

@@ -327,57 +327,6 @@ namespace Server.DAL
             }
         }
 
-        //public List<User> UsersList()
-        //{
-        //    SqlConnection con;
-        //    SqlCommand cmd;
-
-        //    try
-        //    {
-        //        con = connect("myProjDB"); // create the connection
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // write to log
-        //        throw (ex);
-        //    }
-        //    Dictionary<string, object> paramDic = new Dictionary<string, object>();
-
-        //    List<User> users = new List<User>();
-
-        //    cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUsersDetails", con, paramDic);
-
-        //    try
-        //    {
-        //        SqlDataReader dataReader = cmd.ExecuteReader();
-
-        //        while (dataReader.Read())
-        //        {
-        //            User u = new User();
-        //            u.Id = Convert.ToInt16(dataReader["UsersID"]);
-        //            u.Name = dataReader["UsersName"].ToString();
-        //            u.Email= dataReader["UsersEmail"].ToString();
-        //            u.Password = dataReader["UsersPassword"].ToString();
-        //            u.IsActive = Convert.ToBoolean(dataReader["ActiveStatus"]);
-        //            users.Add(u);
-        //        }
-        //        return users;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // write to log
-        //        throw (ex);
-        //    }
-        //    finally
-        //    {
-        //        if (con != null)
-        //        {
-        //            // close the db connection
-        //            con.Close();
-        //        }
-        //    }
-        //}
-
         public List<Object> UsersAList()
         {
             SqlConnection con;
