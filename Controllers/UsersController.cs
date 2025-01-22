@@ -9,23 +9,15 @@ namespace Server.Controllers
         [ApiController]
         public class UsersController : ControllerBase
         {
-            // GET: api/<UsersController>
-            [HttpGet]
-            //public IEnumerable<User> Get()
-            //{
-            //    User user = new User();
-            //    return user.Read();
-            //}
 
-            // GET api/<UsersController>/5
-            [HttpGet("GetList")]
-            public List<User> Get()
+            [HttpGet("GetUsersAdminList")]
+            public List<Object> GetListForAdmin()
             {
                 User user = new User();
-                return user.GetUsersList();
+                return user.GetUsersAList();
             }
 
-            [HttpPost("Register")]
+        [HttpPost("Register")]
             public int Register([FromBody] User newUser)
             {
                 return newUser.Register();
@@ -40,7 +32,6 @@ namespace Server.Controllers
                 User user = new User();
                 User isValidUser = user.isValidUser(userToLogin.Email, userToLogin.Password);
                 return Ok(isValidUser);
-                //return user.isValidUser(userToLogin.Email, userToLogin.Password);
             }
             catch(Exception ex)
             {
@@ -53,14 +44,6 @@ namespace Server.Controllers
             }
 
         }
-
-
-        //// POST api/<UsersController>
-        //[HttpPost]
-        //public bool Post([FromBody] User user)
-        //{
-        //    return user.Insert();
-        //}
 
         [HttpPut("UpdateIsActive")]
         public int updateIsActive([FromBody] User user)
@@ -76,12 +59,6 @@ namespace Server.Controllers
                 User newUser = new User(id, user.Name,user.Email,user.Password,user.IsActive);
                 return newUser.updateUserDet(newUser);
             }
-
-            //// DELETE api/<UsersController>/5
-            //[HttpDelete("{id}")]
-            //public void Delete(int id)
-            //{
-            //}
         }
     }
 

@@ -27,22 +27,15 @@ namespace Server.Models
         public string Password { get => password; set => password = value; }
         public bool IsActive { get => isActive; set => isActive = value; }
 
-        //public static List<User> usersList = new List<User>();
+       //public List<User> GetUsersList() {
+       //     DBservices db = new DBservices();
+       //     return db.UsersList();
+       // }
 
-        //public bool Insert()
-        //{
-        //    for (int i = 0; i < usersList.Count; i++)
-        //    {
-        //        if (this.id == usersList[i].id)
-        //            return false;
-        //    }
-        //    usersList.Add(this);
-        //    return true;
-        //}
-
-       public List<User> GetUsersList() {
+        public List<Object> GetUsersAList()
+        {
             DBservices db = new DBservices();
-            return db.UsersList();
+            return db.UsersAList();
         }
         public User updateUserDet(User user)
         {
@@ -55,13 +48,6 @@ namespace Server.Models
             DBservices db = new DBservices();
             return db.ChangeActiveStatus(user);
         }
-
-
-        //public List<User> Read()
-        //{
-        //    return usersList;
-        //}
-
         public int Register()
         {
             DBservices db = new DBservices();

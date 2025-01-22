@@ -18,10 +18,8 @@ namespace Server.DAL
         {
         
         }
-
         public SqlConnection connect(String conString)
         {
-
             // read the connection string from the configuration file
             IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json").Build();
@@ -303,7 +301,7 @@ namespace Server.DAL
 
                 while (dataReader.Read())
                 {
-                    Object g = new Object();
+                    //Object g = new Object();
                     games.Add(new
                     {
                         AppID = Convert.ToInt16(dataReader["AppID"]),
@@ -329,7 +327,58 @@ namespace Server.DAL
             }
         }
 
-        public List<User> UsersList()
+        //public List<User> UsersList()
+        //{
+        //    SqlConnection con;
+        //    SqlCommand cmd;
+
+        //    try
+        //    {
+        //        con = connect("myProjDB"); // create the connection
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // write to log
+        //        throw (ex);
+        //    }
+        //    Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+        //    List<User> users = new List<User>();
+
+        //    cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUsersDetails", con, paramDic);
+
+        //    try
+        //    {
+        //        SqlDataReader dataReader = cmd.ExecuteReader();
+
+        //        while (dataReader.Read())
+        //        {
+        //            User u = new User();
+        //            u.Id = Convert.ToInt16(dataReader["UsersID"]);
+        //            u.Name = dataReader["UsersName"].ToString();
+        //            u.Email= dataReader["UsersEmail"].ToString();
+        //            u.Password = dataReader["UsersPassword"].ToString();
+        //            u.IsActive = Convert.ToBoolean(dataReader["ActiveStatus"]);
+        //            users.Add(u);
+        //        }
+        //        return users;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // write to log
+        //        throw (ex);
+        //    }
+        //    finally
+        //    {
+        //        if (con != null)
+        //        {
+        //            // close the db connection
+        //            con.Close();
+        //        }
+        //    }
+        //}
+
+        public List<Object> UsersAList()
         {
             SqlConnection con;
             SqlCommand cmd;
@@ -345,9 +394,9 @@ namespace Server.DAL
             }
             Dictionary<string, object> paramDic = new Dictionary<string, object>();
 
-            List<User> users = new List<User>();
+            List<Object> users = new List<Object>();
 
-            cmd = CreateCommandWithStoredProcedureGeneral("SP_GetUsersDetails", con, paramDic);
+            cmd = CreateCommandWithStoredProcedureGeneral("SP_UserInformation", con, paramDic);
 
             try
             {
@@ -355,13 +404,14 @@ namespace Server.DAL
 
                 while (dataReader.Read())
                 {
-                    User u = new User();
-                    u.Id = Convert.ToInt16(dataReader["UsersID"]);
-                    u.Name = dataReader["UsersName"].ToString();
-                    u.Email= dataReader["UsersEmail"].ToString();
-                    u.Password = dataReader["UsersPassword"].ToString();
-                    u.IsActive = Convert.ToBoolean(dataReader["ActiveStatus"]);
-                    users.Add(u);
+                    users.Add(new
+                    {
+                        id = Convert.ToInt16(dataReader["id"]),
+                        name = dataReader["name"].ToString(),
+                        isActive = Convert.ToBoolean(dataReader["isActive"]),
+                        numOfPurcheses = Convert.ToInt16(dataReader["NumOfGames"]),
+                        amountSpent = Convert.ToDouble(dataReader["AmountSpent"])
+                    });
                 }
                 return users;
             }
