@@ -7,7 +7,7 @@ namespace Server.Controllers
    
         [Route("api/[controller]")]
         [ApiController]
-        public class UsersController : ControllerBase
+        public class UsersController : Controller
         {
 
             [HttpGet("GetUsersAdminList")]
